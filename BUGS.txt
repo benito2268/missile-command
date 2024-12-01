@@ -1,0 +1,3 @@
+- fires 2 missile like every other time??
+- sometimes missiles go off the screen (undef slope)
+- missiles always come from 3rd base station
