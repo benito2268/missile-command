@@ -1,15 +1,25 @@
 import pygame as pg
 
 class Explosion:
-    def __init__(self, pos):
+    def __init__(self, pos, type="small"):
         self.pos = pos
-        self.anim = [
-            "sprites/explosion1.png",
-            "sprites/explosion2.png",
-            "sprites/explosion3.png",
-            "sprites/explosion4.png",
-            "sprites/explosion5.png",
-        ]
+
+        if type == "small":
+            self.anim = [
+                "sprites/explosion1.png",
+                "sprites/explosion2.png",
+                "sprites/explosion3.png",
+                "sprites/explosion4.png",
+                "sprites/explosion5.png",
+            ]
+        elif type == "big":
+            self.anim = [
+                "sprites/",
+                "sprites/",
+                "sprites/",
+                "sprites/",
+                "sprites/",
+            ]
 
         self.stage = 0
         self.done = False

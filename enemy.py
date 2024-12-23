@@ -11,7 +11,7 @@ import city
 class Enemy(missile.Missile):
     def __init__(self, cities):
         pos = cities[rand.randint(0, 2)].pos
-        super().__init__(pos)
+        super().__init__(pos, is_enemy=True)
 
         self.source = (rand.randint(0, defs.H_FULL), 0)
         self.rect = pg.Rect(*self.source, 6, 6)

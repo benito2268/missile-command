@@ -7,7 +7,7 @@ BASE_STATIONS = [(115, 910), (700, 905), (1270, 905)]
 
 class Missile(pg.sprite.Sprite):
  
-    def __init__(self, pos):
+    def __init__(self, pos, is_enemy=False):
         # Set the initial position (source) and the initial target.
         self.source = BASE_STATIONS[int((pos[0] // (defs.H_FULL / 3)))]
         self.rect = pg.Rect(*self.source, 12, 12)
@@ -75,7 +75,7 @@ class Missile(pg.sprite.Sprite):
         for pix in self.trail:
             pg.draw.rect(screen, self.trail_color, pix)
 
-        if not self.reached_target:
+        if not self.reached_target and not self.is_enemy:
             pg.draw.rect(screen, defs.RED, self.rect)
             screen.blit(self.target_marker, self.target)
 
