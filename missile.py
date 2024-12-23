@@ -3,7 +3,7 @@ import pygame as pg
 import math
 import explosion
 
-BASE_STATIONS = [(300, defs.V_FULL), (600, defs.V_FULL), (900, defs.V_FULL)]
+BASE_STATIONS = [(115, 910), (700, 905), (1270, 905)]
 
 class Missile(pg.sprite.Sprite):
  
@@ -13,13 +13,14 @@ class Missile(pg.sprite.Sprite):
         self.rect = pg.Rect(*self.source, 12, 12)
         self.target = pos 
 
+        self.is_enemy = False
         self.done = False
         self.reached_target = False
 
         self.trail = []
 
         # clear one square of the trail every __ frames
-        # higher = slower fadeA
+        # higher = slower fade
         self.trail_fade_speed = 3
         self.trail_fade_cnt = 0
         self.trail_size = 6
@@ -35,13 +36,14 @@ class Missile(pg.sprite.Sprite):
         self.target_marker = pg.image.load("sprites/target.png")
 
     def explode(self, pos):
+        self.reached_target = True
         self.explosion = explosion.Explosion(pos)
         
-    def update(self, screen):
+    def update(self, screen, enemies):
         if self.reached_target:
             if len(self.trail) == 0:
                 self.done = True
-            self.explosion.update(screen)
+            self.explosion.update(screen, enemies)
             return
         
         # color the previous position grey
@@ -66,7 +68,6 @@ class Missile(pg.sprite.Sprite):
             # be done moving
             self.rect.x = self.target[0]
             self.rect.y = self.target[1]
-            self.reached_target = True
 
             self.explode((self.target[0], self.target[1]))
 

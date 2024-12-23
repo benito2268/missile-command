@@ -21,7 +21,7 @@ class Explosion:
         self.image = pg.image.load(self.anim[0])
         self.rect = self.image.get_rect(center=self.pos)
 
-    def update(self, screen):
+    def update(self, screen, enemies):
         if self.stage == len(self.anim):
             if self.anim_cnt != len(self.anim):
                 self.anim_cnt += 1
@@ -37,6 +37,9 @@ class Explosion:
         else:
             self.anim_cnt += 1
 
+        for e in enemies:
+            if not e.reached_target and self.rect.colliderect(e.rect):
+                e.explode((e.rect.x, e.rect.y))
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

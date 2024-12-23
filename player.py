@@ -24,7 +24,7 @@ class Player(pg.sprite.Sprite):
             self.can_fire = False
 
     # move the crosshair when wasd pressed
-    def update(self, screen):
+    def update(self, screen, enemies):
         keys = pg.key.get_pressed()
         d_x = keys[pg.K_d] - keys[pg.K_a]
         d_y = keys[pg.K_s] - keys[pg.K_w]
@@ -45,7 +45,7 @@ class Player(pg.sprite.Sprite):
         # update all the players missiles
         # TODO delete missiles that are done
         for m in self.missiles:
-            m.update(screen)
+            m.update(screen, enemies)
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
