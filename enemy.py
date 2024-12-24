@@ -23,3 +23,5 @@ class Enemy(missile.Missile):
         self.trail_fade_speed = 1
         self.trail_color = defs.GREY
         self.trail_draw_speed = 5
+
+        self.is_enemy = True

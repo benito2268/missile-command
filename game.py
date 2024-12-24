@@ -4,13 +4,22 @@ import defs
 import player
 import enemy
 import city
+import math
 
 # a percentage of sorts
-ENEMY_SPAWN_CHANCE = 10
-ENEMY_SPAWN_OUT_OF = 10000
+ENEMY_SPAWN_CHANCE = 1
+ENEMY_SPAWN_OUT_OF = 300
+
+# generator that gives the amount of enemies in a round
+def get_round_caps():
+    # will crash after round 999
+    for i in range(999):
+        # + 3 to ensure log(i) >= 1
+        yield int(20 * math.log(i + 3))
 
 def main():
     pg.init()
+    pg.font.init()
 
     p = player.Player((0, 0), "sprites/crosshair.png")
     screen = pg.display.set_mode((defs.H_FULL, defs.V_FULL))
@@ -26,6 +35,10 @@ def main():
         city.City((1140, 900)),
     ]
 
+    round_caps = iter(get_round_caps())
+    round_cap = next(round_caps)
+    round_no = 1
+    en_this_round = 0
     enemies = []
 
     # main game loop
@@ -47,24 +60,31 @@ def main():
         p.draw(screen)
 
         # determine whether to spawn an enemy
-        i = rand.randint(0, ENEMY_SPAWN_OUT_OF)
-        if i < ENEMY_SPAWN_CHANCE:
-            enemies.append(enemy.Enemy(cities))
+        if en_this_round <= round_cap:
+            i = rand.randint(0, ENEMY_SPAWN_OUT_OF)
+            if i < ENEMY_SPAWN_CHANCE:
+                enemies.append(enemy.Enemy(cities))
+                en_this_round += 1
+        else:
+            round_cap = next(round_caps)
+            en_this_round = 0
+            round_no += 1
 
         for c in cities:
             c.draw(screen)
 
-        to_rm = []
+        # TODO this part doesn't work
+        #to_rm = []
         for i, e in enumerate(enemies):
             e.update(screen, enemies)
-
-            if e.explosion and e.explosion.done:
-                to_rm.append(i)
-
+        
+        #   if e.explosion and e.explosion.done:
+        #        to_rm.append(i)
+        #
             e.draw(screen)
 
-        for i in to_rm:
-            del enemies[i]
+        #for i in to_rm:
+        #    del enemies[i]
 
         pg.display.flip()
 

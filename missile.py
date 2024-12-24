@@ -75,9 +75,11 @@ class Missile(pg.sprite.Sprite):
         for pix in self.trail:
             pg.draw.rect(screen, self.trail_color, pix)
 
-        if not self.reached_target and not self.is_enemy:
+        if not self.reached_target:
             pg.draw.rect(screen, defs.RED, self.rect)
-            screen.blit(self.target_marker, self.target)
+
+            if not self.is_enemy:
+                screen.blit(self.target_marker, self.target)
 
         # start clearing the trail once it has stopped growing
         if self.reached_target and self.trail:
